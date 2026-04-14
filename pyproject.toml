@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "execo-rag"
+version = "0.1.0"
+description = "Production-ready AI contract digitization and retrieval pipeline."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+  { name = "EXECO Engineering" }
+]
+license = { text = "Proprietary" }
+dependencies = [
+  "fastapi>=0.115.0",
+  "pydantic>=2.9.0",
+  "pydantic-settings>=2.5.0",
+  "uvicorn>=0.32.0",
+  # PDF extraction
+  "pypdf>=4.3.0",
+  "pdfminer.six>=20231228",
+  "unstructured[pdf]>=0.15.0",
+  # Local embeddings and optional LLM fallback
+  "sentence-transformers>=3.0.0",
+  "tiktoken>=0.7.0",
+  # Vector store
+  "pinecone>=5.0.0",
+  # Utilities
+  "python-dateutil>=2.9.0",
+  "filetype>=1.2.0",
+  # Orchestration
+  "langgraph>=0.2.0",
+  "langchain-core>=0.3.0",
+  # Async HTTP for future background task support
+  "httpx>=0.27.0",
+]
+
+[dependency-groups]
+dev = [
+  "black>=25.0.0",
+  "mypy>=1.11.0",
+  "pytest>=8.3.0",
+  "pytest-cov>=5.0.0",
+  "ruff>=0.6.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N", "W"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.12"
+mypy_path = ["src"]
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+pretty = true
+show_error_codes = true
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra"
